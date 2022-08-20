@@ -70,9 +70,9 @@ void Logger::messageOutput(QtMsgType type, const QMessageLogContext& context, co
 		arg(QDateTime::currentDateTime().toString("dd-MM-yyyy hh:mm:ss.zzz")).
         arg(Logger::context_names.value(type)).
         arg(msg).
-		arg(QString(context.file)).			// File name without file path
+		arg(context.file).			// File name without file path
         arg(context.line).
-        arg(QString(context.function)).	// Function name only
+        arg(context.function).	// Function name only
         toStdString();
 #else
     std::string log = QObject::tr("%1 %2 : %3").
