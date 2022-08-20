@@ -1,6 +1,4 @@
 #include "Logger.h"
-#include "Benchmark.h"
-#include <format>
 
 #define RST  "\x1B[0m"
 #define KRED  "\x1B[31m"
@@ -66,18 +64,17 @@ Logger::~Logger()
 
 void Logger::messageOutput(QtMsgType type, const QMessageLogContext& context, const QString& msg)
 {
-    Benchmark b;
-
 
 #if defined(LOG_TO_FILE) || defined(LOG_TO_CONSOLE)
 #ifdef QT_MESSAGELOGCONTEXT
-    std::string log = QObject::tr("%1 %2 : %3       (%4 %5 %6)").
+    std::string log = QObject::tr("%1 %2 : %3       (%4:%5:1  %6)").
 		arg(QDateTime::currentDateTime().toString("dd-MM-yyyy hh:mm:ss.zzz")).
         arg(Logger::context_names.value(type)).
         arg(msg).
-		arg(QString(context.file).section('/', -1)).			// File name without file path
-        arg(QString(context.function).section('(', -2, -2).section(' ', -1).section(':', -1)).	// Function name only
-        arg(context.line).toStdString();
+		arg(QString(context.file)).			// File name without file path
+        arg(context.line).
+        arg(QString(context.function)).	// Function name only
+        toStdString();
 #else
     std::string log = QObject::tr("%1 %2 : %3").
         arg(QDateTime::currentDateTime().toString("dd-MM-yyyy hh:mm:ss")).
@@ -86,7 +83,6 @@ void Logger::messageOutput(QtMsgType type, const QMessageLogContext& context, co
 #endif
 #endif
 
-auto log = std::format;
 #ifdef LOG_TO_FILE
     log_file << log << std::endl;
 #endif

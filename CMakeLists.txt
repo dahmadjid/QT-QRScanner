@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.12)
 
 project(QRScanner VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -11,9 +11,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
-
 add_compile_definitions(QT_MESSAGELOGCONTEXT)
-
 
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
@@ -52,6 +50,8 @@ else()
         )
     endif()
 endif()
+
+
 
 target_link_libraries(QRScanner PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 
