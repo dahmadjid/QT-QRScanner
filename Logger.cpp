@@ -42,23 +42,22 @@ const QHash<QtMsgType, QString> Logger::context_names = {
 Logger::Logger()
 {
 
-    if (is_init) {
-        qFatal("Can you not create logger class twice dude ?");
-        return;
-    }
+    if (!is_init) 
+    {
+
 #ifdef LOG_TO_FILE
-    log_file.open(log_file_path, std::ios_base::out);
+        log_file.open(log_file_path, std::ios_base::out);
 #endif
-    qInstallMessageHandler(Logger::messageOutput);
+        qInstallMessageHandler(Logger::messageOutput);
 
 
-    Logger::is_init = true;
+        Logger::is_init = true;
+    }
 }
 Logger::~Logger()
 {
     if (log_file.is_open()) {
         log_file.close();
-        std::cout << "Logger stopped" << std::endl;
     }
 }
 
