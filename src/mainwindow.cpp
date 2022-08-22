@@ -87,7 +87,7 @@ void MainWindow::updateFrame()
         QImage img((uchar*)image->data, image->cols, image->rows,  QImage::Format_RGB888);
         QPixmap pixmap = QPixmap::fromImage(img);
         ui->camera->setPixmap(pixmap.scaled(ui->scan_text->width(), ui->scan_text->height(), Qt::KeepAspectRatioByExpanding));
-        emit updated();
+        
 
         if (!detected_qr)
         {
@@ -98,10 +98,10 @@ void MainWindow::updateFrame()
                 qInfo() << "Detected QR: " << data.c_str(); 
                 detected_qr = true;
                 QTimer::singleShot(2500, this, [=]{detected_qr = false;}); // debouncing
-                emit detectedQR(data);
+                emit detectedQR(data); 
             }
         }
-
+        emit updated(); // this calls Capture::setSync (essentially a semaphore behavior but way faster than qmutex)
     }
     else
     {

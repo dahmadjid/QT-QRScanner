@@ -25,7 +25,6 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     std::shared_ptr<cv::Mat> image;
-    std::shared_ptr<QMutex> image_mutex;
 public slots:
     void updateFrame();
 signals:

@@ -6,7 +6,8 @@
 #include "Capture.h"
 #include <memory>
 #include <QTimer>
-#include <QMutex>
+
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -24,10 +25,6 @@ int main(int argc, char *argv[])
 
     w.image = mat;
     capture->image = mat;
-
-    w.image_mutex = image_mutex;
-    capture->image_mutex = image_mutex;
-
 
     capture->moveToThread(thread);
     QObject::connect(thread, &QThread::started, capture, &Capture::run, Qt::QueuedConnection);
