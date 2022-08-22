@@ -1,5 +1,6 @@
-#ifndef _BENCHMARK_H_
-#define _BENCHMARK_H_
+#pragma once 
+
+
 
 #include <iostream>
 #include <chrono>
@@ -16,13 +17,3 @@ public:
 };
 
 
-
-
-
-
-
-
-
-
-
-#endif

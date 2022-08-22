@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1920</width>
+    <height>1080</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="camera">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>290</y>
+      <width>500</width>
+      <height>500</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="logo_center">
+    <property name="geometry">
+     <rect>
+      <x>910</x>
+      <y>885</y>
+      <width>100</width>
+      <height>100</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="logo_right">
+    <property name="geometry">
+     <rect>
+      <x>1545</x>
+      <y>885</y>
+      <width>250</width>
+      <height>100</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="logo_left">
+    <property name="geometry">
+     <rect>
+      <x>125</x>
+      <y>885</y>
+      <width>250</width>
+      <height>100</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="background">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>1920</width>
+      <height>1080</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="scan_text">
+    <property name="geometry">
+     <rect>
+      <x>125</x>
+      <y>95</y>
+      <width>578</width>
+      <height>100</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="menu_button">
+    <property name="geometry">
+     <rect>
+      <x>1620</x>
+      <y>95</y>
+      <width>100</width>
+      <height>100</height>
+     </rect>
+    </property>
+   </widget>
+   <zorder>background</zorder>
+   <zorder>logo_center</zorder>
+   <zorder>logo_right</zorder>
+   <zorder>logo_left</zorder>
+   <zorder>camera</zorder>
+   <zorder>scan_text</zorder>
+   <zorder>menu_button</zorder>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
