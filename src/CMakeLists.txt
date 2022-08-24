@@ -7,12 +7,15 @@ set(PROJECT_SOURCES
         Benchmark.cpp
         mainwindow.ui
         Capture.cpp
+        DetectedQRDialog.cpp
+        DetectedQRDialog.ui
 )
 set(PROJECT_HEADERS 
         mainwindow.h
         Logger.h
         Benchmark.h
         Capture.h
+        DetectedQRDialog.h 
 )
 
 

@@ -6,40 +6,50 @@
 #include "Capture.h"
 #include <memory>
 #include <QTimer>
-
+#include "DetectedQRDialog.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     Logger logger;
+    auto w = std::make_unique<MainWindow>();
+    auto attendance_dialog = std::make_unique<DetectedQRDialog>();
 
-    std::shared_ptr<cv::Mat> mat = std::make_shared<cv::Mat>();
-    std::shared_ptr<QMutex> image_mutex = std::make_shared<QMutex>();
+    auto thread = new QThread();  // They delete themselves later
+    auto capture = new Capture(); 
+
+
+    auto mat = std::make_shared<cv::Mat>();
+
+
+    QTimer timer_refresh_rate;
+
 
     QThread::currentThread()->setObjectName("Main Thread");
-    QThread* thread = new QThread();
     thread->setObjectName("Capture Thread");
-    Capture* capture = new Capture();
 
-    MainWindow w;
 
-    w.image = mat;
+    w->m_dialog = attendance_dialog.get();
+
+    w->image = mat;
     capture->image = mat;
-
+    
     capture->moveToThread(thread);
     QObject::connect(thread, &QThread::started, capture, &Capture::run, Qt::QueuedConnection);
     QObject::connect(capture, &Capture::finished, thread, &QThread::quit, Qt::QueuedConnection);
-    QObject::connect(capture, &Capture::finished, capture, &Capture::deleteLater, Qt::QueuedConnection);
-    QObject::connect(thread, &QThread::finished, thread, &QThread::deleteLater, Qt::QueuedConnection);
-    QObject::connect(capture, &Capture::updated, &w, &MainWindow::updateFrame, Qt::QueuedConnection);
-    QTimer timer = QTimer();
-    QObject::connect(&timer, &QTimer::timeout, capture, &Capture::getFrame, Qt::QueuedConnection);
-    QObject::connect(&w, &MainWindow::updated, capture, &Capture::setSync, Qt::QueuedConnection);
+    QObject::connect(capture, &Capture::updated, w.get(), &MainWindow::updateFrame, Qt::QueuedConnection);
+    QObject::connect(capture, &Capture::finished, capture, &Capture::deleteLater, Qt::DirectConnection);
+    QObject::connect(thread, &QThread::finished, thread, &QThread::deleteLater, Qt::DirectConnection);
+
+    QObject::connect(&timer_refresh_rate, &QTimer::timeout, capture, &Capture::getFrame, Qt::QueuedConnection);
+    QObject::connect(w.get(), &MainWindow::updated, capture, &Capture::setSync, Qt::QueuedConnection);
+    QObject::connect(w.get(), &MainWindow::detectedQR, attendance_dialog.get(), &DetectedQRDialog::display, Qt::DirectConnection);
+
+
 
     thread->start();
-    timer.start(16);
+    timer_refresh_rate.start(16);
+    w->show();
 
-    w.show();
-    
     return a.exec();
 }

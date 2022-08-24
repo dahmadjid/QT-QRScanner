@@ -99,11 +99,11 @@
      </rect>
     </property>
    </widget>
+   <zorder>camera</zorder>
    <zorder>background</zorder>
    <zorder>logo_center</zorder>
    <zorder>logo_right</zorder>
    <zorder>logo_left</zorder>
-   <zorder>camera</zorder>
    <zorder>scan_text</zorder>
    <zorder>menu_button</zorder>
   </widget>

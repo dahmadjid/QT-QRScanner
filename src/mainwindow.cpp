@@ -67,6 +67,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     ui->camera->setStyleSheet("QLabel { background-color: transparent }");
+
+
+    
 }
 
 MainWindow::~MainWindow()
@@ -82,23 +85,28 @@ void MainWindow::updateFrame()
 
     if (image != nullptr)
     {
-        cv::QRCodeDetector qrDet;
-
-        QImage img((uchar*)image->data, image->cols, image->rows,  QImage::Format_RGB888);
-        QPixmap pixmap = QPixmap::fromImage(img);
-        ui->camera->setPixmap(pixmap.scaled(ui->scan_text->width(), ui->scan_text->height(), Qt::KeepAspectRatioByExpanding));
         
-
+        cv::QRCodeDetector qrDet;
         if (!detected_qr)
-        {
-            std::string data = qrDet.detectAndDecode(*image);
+        {   
+            QImage img((uchar*)image->data, image->cols, image->rows,  QImage::Format_RGB888);
+            QPixmap pixmap = QPixmap::fromImage(img);
+            ui->camera->setPixmap(pixmap.scaled(ui->camera->width(), ui->camera->height(), Qt::KeepAspectRatioByExpanding));
+   
+            std::string qr = qrDet.detectAndDecode(*image);
             
-            if (data.length() > 0)
+            if (qr.length() > 0)
             {
-                qInfo() << "Detected QR: " << data.c_str(); 
+                qInfo() << "Detected QR: " << qr.c_str(); 
                 detected_qr = true;
-                QTimer::singleShot(2500, this, [=]{detected_qr = false;}); // debouncing
-                emit detectedQR(data); 
+                QTimer::singleShot(2500, this, [=]{
+                    detected_qr = false; // debouncing
+                    if (m_dialog != nullptr)
+                    {
+                        m_dialog->hide();
+                    }
+                }); 
+                emit detectedQR(qr, 1, "C10"); 
             }
         }
         emit updated(); // this calls Capture::setSync (essentially a semaphore behavior but way faster than qmutex)
