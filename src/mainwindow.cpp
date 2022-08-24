@@ -22,13 +22,13 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
     ui->menu_button->setIcon(burger_animation_movie.currentPixmap());
-    ui->menu_button->setIconSize({120,120});
+    ui->menu_button->setIconSize({74,74});
     ui->menu_button->setFlat(true);
     ui->menu_button->setStyleSheet("QPushButton { background-color: transparent }");
     ui->menu_button->setStyleSheet("QPushButton:pressed { background-color: rgba(0, 0, 0, 0);border-style: inset;border-width: 0px;}");
     QObject::connect(&burger_animation_movie, &QMovie::frameChanged, [=]{
         ui->menu_button->setIcon(burger_animation_movie.currentPixmap());
-        ui->menu_button->setIconSize({120,120});
+        ui->menu_button->setIconSize({74,74});
         if (burger_animation_movie.currentFrameNumber() == 25)
         {
             burger_animation_movie.setPaused(true);
@@ -41,7 +41,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     QObject::connect(ui->menu_button, &QPushButton::clicked, [=]{
 
-        burger_animation_movie.setPaused(false);
+        // burger_animation_movie.setPaused(false);  // animation disabled until animation of drop down menu added
+        emit menu_clicked();
     });
 
 // Logos -------------------------------------------------------------------------------------------------------------------------------
@@ -106,7 +107,7 @@ void MainWindow::updateFrame()
                         m_dialog->hide();
                     }
                 }); 
-                emit detectedQR(qr, 1, "C10"); 
+                emit detectedQR(qr, 1); 
             }
         }
         emit updated(); // this calls Capture::setSync (essentially a semaphore behavior but way faster than qmutex)

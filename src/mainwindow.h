@@ -25,16 +25,18 @@ public:
     ~MainWindow();
     std::shared_ptr<cv::Mat> image;
     DetectedQRDialog* m_dialog; 
+
 public slots:
     void updateFrame();
 signals:
-    void detectedQR(const std::string& qr, const int& state, const std::string& correct_room);
-
+    void detectedQR(const std::string& qr, const int& state);
+    
     void updated();
+    void menu_clicked();
 private:
-    Ui::MainWindow *ui;
     QMovie burger_animation_movie;
     bool detected_qr = false;
+    Ui::MainWindow *ui;
 
     int movie_frames;
 

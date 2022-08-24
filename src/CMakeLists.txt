@@ -9,6 +9,8 @@ set(PROJECT_SOURCES
         Capture.cpp
         DetectedQRDialog.cpp
         DetectedQRDialog.ui
+        Dropdown.cpp 
+        Dropdown.ui
 )
 set(PROJECT_HEADERS 
         mainwindow.h
@@ -16,6 +18,7 @@ set(PROJECT_HEADERS
         Benchmark.h
         Capture.h
         DetectedQRDialog.h 
+        Dropdown.h 
 )
 
 

@@ -22,7 +22,7 @@ DetectedQRDialog::~DetectedQRDialog()
 }
 
 
-void DetectedQRDialog::display(const std::string& qr, const int& state, const std::string& correct_room)
+void DetectedQRDialog::display(const std::string& qr, const int& state)
 {
     ui->name_label->setText(std::move(QString::fromStdString(qr)));
     if (state == 0)
@@ -30,11 +30,11 @@ void DetectedQRDialog::display(const std::string& qr, const int& state, const st
         ui->attendance_label->setText(std::move(QString::fromStdString(m_attendance_confirmed)));
         ui->attendance_label->setStyleSheet("QLabel { color: rgb(0,255,0); }");
     }
-    else if (state == 1)
-    {
-        ui->attendance_label->setText(std::move(QString::fromStdString(m_wrong_room + correct_room)));
-        ui->attendance_label->setStyleSheet("QLabel { color: red }");
-    }
+    // else if (state == 1)
+    // {
+    //     ui->attendance_label->setText(std::move(QString::fromStdString(m_wrong_room + correct_room)));    // This will really never happen as csvs are separated and i dont want to load entire csvs.
+    //     ui->attendance_label->setStyleSheet("QLabel { color: red }"); // students can orient theemselves correctly by reading schedule like humans;
+    // }
     else
     {
         ui->attendance_label->setText(std::move(QString::fromStdString(m_not_found)));
