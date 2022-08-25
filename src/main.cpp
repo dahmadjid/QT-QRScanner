@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
     QObject::connect(w.get(), &MainWindow::detectedQR, attendance_dialog.get(), &DetectedQRDialog::display, Qt::DirectConnection);
     bool shown = false;
     QObject::connect(w.get(), &MainWindow::menuButtonClicked, [&]{if(shown){ drop->hide(); shown = false;} else{drop->show(); shown = true;}});
-    QObject::connect(drop, &Dropdown::emailToolButtonClicked, [&]{email_tool_dialog->show();});
+    QObject::connect(drop, &Dropdown::emailToolButtonClicked, [&]{email_tool_dialog->show();shown = false; drop->hide();});
 
     thread->start();
     timer_refresh_rate.start(16);
