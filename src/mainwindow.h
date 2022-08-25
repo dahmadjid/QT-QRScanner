@@ -32,7 +32,7 @@ signals:
     void detectedQR(const std::string& qr, const int& state);
     
     void updated();
-    void menu_clicked();
+    void menuButtonClicked();
 private:
     QMovie burger_animation_movie;
     bool detected_qr = false;

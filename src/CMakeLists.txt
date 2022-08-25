@@ -5,12 +5,10 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         Logger.cpp
         Benchmark.cpp
-        mainwindow.ui
         Capture.cpp
         DetectedQRDialog.cpp
-        DetectedQRDialog.ui
         Dropdown.cpp 
-        Dropdown.ui
+        EmailToolDialog.cpp 
 )
 set(PROJECT_HEADERS 
         mainwindow.h
@@ -19,15 +17,22 @@ set(PROJECT_HEADERS
         Capture.h
         DetectedQRDialog.h 
         Dropdown.h 
+        EmailToolDialog.h 
 )
 
 
 
-
+set(PROJECT_FORMS 
+        mainwindow.ui
+        DetectedQRDialog.ui
+        Dropdown.ui
+        EmailToolDialog.ui
+)
 
 add_executable(QRScanner
     ${PROJECT_SOURCES} 
     ${PROJECT_HEADERS}
+    ${PROJECT_FORMS}
 )
 
 

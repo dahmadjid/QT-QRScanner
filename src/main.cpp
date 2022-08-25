@@ -8,12 +8,15 @@
 #include <QTimer>
 #include "DetectedQRDialog.h"
 #include "Dropdown.h"
+#include "EmailToolDialog.h"
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     Logger logger;
     auto w = std::make_unique<MainWindow>();
     auto attendance_dialog = std::make_unique<DetectedQRDialog>();
+    auto email_tool_dialog = std::make_unique<EmailToolDialog>();
+
     auto drop = new Dropdown(w.get());
     auto thread = new QThread();  // They delete themselves later
     auto capture = new Capture(); 
@@ -45,11 +48,12 @@ int main(int argc, char *argv[])
     QObject::connect(w.get(), &MainWindow::updated, capture, &Capture::setSync, Qt::QueuedConnection);
     QObject::connect(w.get(), &MainWindow::detectedQR, attendance_dialog.get(), &DetectedQRDialog::display, Qt::DirectConnection);
     bool shown = false;
-    QObject::connect(w.get(), &MainWindow::menu_clicked, [&]{if(shown){ drop->hide(); shown = false;} else{drop->show(); shown = true;}});
+    QObject::connect(w.get(), &MainWindow::menuButtonClicked, [&]{if(shown){ drop->hide(); shown = false;} else{drop->show(); shown = true;}});
+    QObject::connect(drop, &Dropdown::emailToolButtonClicked, [&]{email_tool_dialog->show();});
 
     thread->start();
     timer_refresh_rate.start(16);
-    drop->move(std::move(QPoint(1563, 200)));
+    drop->move(std::move(QPoint(1563, 180)));
     w->show();
     drop->hide();
 

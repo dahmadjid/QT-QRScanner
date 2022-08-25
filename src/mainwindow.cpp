@@ -42,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(ui->menu_button, &QPushButton::clicked, [=]{
 
         // burger_animation_movie.setPaused(false);  // animation disabled until animation of drop down menu added
-        emit menu_clicked();
+        emit menuButtonClicked();
     });
 
 // Logos -------------------------------------------------------------------------------------------------------------------------------

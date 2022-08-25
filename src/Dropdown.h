@@ -14,7 +14,8 @@ class Dropdown : public QWidget
 public:
     explicit Dropdown(QWidget *parent = nullptr);
     ~Dropdown();
-
+signals:
+void emailToolButtonClicked();
 private:
     Ui::Dropdown *ui;
 

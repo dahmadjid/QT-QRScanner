@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>EmailToolDialog</class>
+ <widget class="QWidget" name="EmailToolDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1920</width>
+    <height>1080</height>
+   </rect>
+  </property>
+  <property name="palette">
+   <palette>
+    <active/>
+    <inactive/>
+    <disabled/>
+   </palette>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QLabel" name="background">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1920</width>
+     <height>1080</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+    </font>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="subjec_text">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>370</y>
+     <width>840</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(246, 245, 244);
+color: black;
+border-radius: 5px;</string>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="body_text">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>435</y>
+     <width>840</width>
+     <height>255</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(246, 245, 244);
+color: black;
+border-radius: 10px;</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="body_label">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>405</y>
+     <width>241</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>16</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: white;
+</string>
+   </property>
+   <property name="text">
+    <string>Body:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="subject_label">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>340</y>
+     <width>311</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>16</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: white;
+</string>
+   </property>
+   <property name="text">
+    <string>Subject:</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="send_to_all_groups_check">
+   <property name="geometry">
+    <rect>
+     <x>730</x>
+     <y>710</y>
+     <width>150</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(246, 245, 244);
+color: black;
+border-radius: 2px;</string>
+   </property>
+   <property name="text">
+    <string>Send to all groups</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="attach_qr_check">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>710</y>
+     <width>150</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(246, 245, 244);
+color: black;
+border-radius: 2px;</string>
+   </property>
+   <property name="text">
+    <string>Attach QR Codes</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="groups_combo">
+   <property name="geometry">
+    <rect>
+     <x>900</x>
+     <y>710</y>
+     <width>150</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(246, 245, 244);
+color: black;
+border-radius: 5px;</string>
+   </property>
+   <property name="placeholderText">
+    <string>Groups</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="attach_files_button">
+   <property name="geometry">
+    <rect>
+     <x>900</x>
+     <y>755</y>
+     <width>150</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(246, 245, 244);
+color: black;
+border-radius: 5px;</string>
+   </property>
+   <property name="text">
+    <string>Attach Files</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="send_emails_button">
+   <property name="geometry">
+    <rect>
+     <x>1150</x>
+     <y>710</y>
+     <width>250</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(246, 245, 244);
+color: black;
+border-radius: 5px;</string>
+   </property>
+   <property name="text">
+    <string>Send Emails</string>
+   </property>
+   <property name="flat">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="attached_files_line">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>755</y>
+     <width>320</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(246, 245, 244);
+color: black;
+border-radius: 5px;</string>
+   </property>
+   <property name="placeholderText">
+    <string>Attached Files</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
