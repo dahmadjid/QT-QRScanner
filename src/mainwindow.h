@@ -34,9 +34,9 @@ signals:
     void updated();
     void menuButtonClicked();
 private:
+    Ui::MainWindow *ui;
     QMovie burger_animation_movie;
     bool detected_qr = false;
-    Ui::MainWindow *ui;
 
     int movie_frames;
 

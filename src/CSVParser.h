@@ -3,31 +3,37 @@
 
 #include <iostream>
 #include <vector>
-#include <map>
-namespace CSVParser
-{
+#include <unordered_map>
+namespace CSV
+{ //
+
+
+// TODO: Test that these numbers are correct.
     struct RowInfo
     {
-        int email_length;
-        int name_length;
-        int data_start_index;
-        int line_number;
+        unsigned int email_length;
+        unsigned int name_length;
+        unsigned int student_info_end_index;
+        unsigned int line_number;
+        unsigned int line_length;
     };
-
     struct HeaderInfo
     {
-        int number_of_sessions;
-
+        unsigned int number_of_columns;
+        unsigned int number_of_sessions;
+        std::unordered_map<std::string, unsigned int> columns;
     };
-
     class CSVParser
     {
 
+    public:
+        std::vector<std::unordered_map<std::string, RowInfo>> parseMultiple(std::vector<std::string> files);
+        std::unordered_map<std::string, RowInfo> parseFile(const char* csv_file_path);
     private:
-        int number_of_sessions;
-        std::map<std::string, RowInfo> parseFile(const char* csv_file_path); 
 
-
+        std::vector<std::string> m_files;
+        std::vector<HeaderInfo> m_headers;
 
     };
 }
+

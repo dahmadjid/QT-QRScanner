@@ -93,8 +93,15 @@ void MainWindow::updateFrame()
             QImage img((uchar*)image->data, image->cols, image->rows,  QImage::Format_RGB888);
             QPixmap pixmap = QPixmap::fromImage(img);
             ui->camera->setPixmap(pixmap.scaled(ui->camera->width(), ui->camera->height(), Qt::KeepAspectRatioByExpanding));
-   
-            std::string qr = qrDet.detectAndDecode(*image);
+            std::string qr;
+            try
+            {
+                qr = qrDet.detectAndDecode(*image);
+            }
+            catch(...)
+            {
+                qInfo() << "Exception from qr decoder";
+            }
             
             if (qr.length() > 0)
             {

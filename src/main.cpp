@@ -9,6 +9,9 @@
 #include "DetectedQRDialog.h"
 #include "Dropdown.h"
 #include "EmailToolDialog.h"
+#include "CSVParser.h"
+
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -23,20 +26,12 @@ int main(int argc, char *argv[])
 
 
     auto mat = std::make_shared<cv::Mat>();
-
-
     QTimer timer_refresh_rate;
-
-
     QThread::currentThread()->setObjectName("Main Thread");
     thread->setObjectName("Capture Thread");
-
-
     w->m_dialog = attendance_dialog.get();
-
     w->image = mat;
     capture->image = mat;
-    
     capture->moveToThread(thread);
     QObject::connect(thread, &QThread::started, capture, &Capture::run, Qt::QueuedConnection);
     QObject::connect(capture, &Capture::finished, thread, &QThread::quit, Qt::QueuedConnection);
@@ -57,5 +52,14 @@ int main(int argc, char *argv[])
     w->show();
     drop->hide();
 
-    return a.exec();
+    CSV::CSVParser parser;
+    auto students_info = parser.parseFile(CWD"/group_1.csv");
+   
+
+    for (const auto& kv : students_info)
+    {
+        std::cout << kv.first << ": " << kv.second.email_length << ", " << kv.second.name_length << ", " << kv.second.student_info_end_index << ", "  << kv.second.line_number << ", " << kv.second.line_length << std::endl;
+    }
+    return 0;
+    // return a.exec();
 }

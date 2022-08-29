@@ -30,9 +30,13 @@ void Capture::getFrame()
         if (image != nullptr)
         {
             *cap >> *image;
-            cv::cvtColor(*image, *image, cv::COLOR_BGR2RGB);
-            sync = false;
-            emit updated();
+            if (!image->empty())
+            {
+                cv::cvtColor(*image, *image, cv::COLOR_BGR2RGB);
+                sync = false;
+                emit updated();
+            }
+            
         }
         else
         {

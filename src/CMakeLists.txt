@@ -1,5 +1,6 @@
 add_compile_definitions(QT_MESSAGELOGCONTEXT)
 ADD_DEFINITIONS( -DCWD=\"${CMAKE_SOURCE_DIR}\" )
+add_compile_options(-Wall -Wextra -Wpedantic)
 set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
@@ -8,7 +9,8 @@ set(PROJECT_SOURCES
         Capture.cpp
         DetectedQRDialog.cpp
         Dropdown.cpp 
-        EmailToolDialog.cpp 
+        EmailToolDialog.cpp
+        CSVParser.cpp
 )
 set(PROJECT_HEADERS 
         mainwindow.h
@@ -17,8 +19,9 @@ set(PROJECT_HEADERS
         Capture.h
         DetectedQRDialog.h 
         Dropdown.h 
-        EmailToolDialog.h 
-)
+        EmailToolDialog.h
+        CSVParser.h
+        )
 
 
 
