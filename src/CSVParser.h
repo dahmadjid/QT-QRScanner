@@ -8,7 +8,7 @@ namespace CSV
 { //
 
 
-// TODO: Test that these numbers are correct.
+// TODO:  add invalid csv checks. test invalid csv. benchmarks.
     struct RowInfo
     {
         unsigned int email_length;
@@ -35,7 +35,6 @@ namespace CSV
         std::vector<std::unordered_map<std::string, RowInfo>> m_maps;
         std::vector<std::string> m_files;
         std::vector<HeaderInfo> m_headers;
-
     };
 }
 

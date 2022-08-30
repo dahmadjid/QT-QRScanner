@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
    
 
 
-    parser.updateAttendance("AZER,AZER", "s2");
+    parser.updateAttendance("12as3,email", "s3");
     return 0;
     // return a.exec();
 }

@@ -7,8 +7,7 @@ namespace CSV {
 
 
 void CSVParser::parseFile(const std::string& csv_file_path) {
-    std::fstream csv_file;
-    csv_file.open(csv_file_path, std::ios_base::in);
+
     unsigned int name_length = 0;
     unsigned int email_length = 0;
     unsigned int comma_count = 0;
@@ -23,8 +22,17 @@ void CSVParser::parseFile(const std::string& csv_file_path) {
     std::string header_element = "";
     unsigned int duplicate_number = 0; // to avoid duplicate headers in map
 
+
+    std::fstream csv_file;
+    csv_file.open(csv_file_path, std::ios_base::in);
+
     while (std::getline(csv_file, line))
     {
+        if (line.length() < 4)
+        {
+            qInfo() << "ignoring empty line: " << line_number ;
+            continue;
+        }
         end_of_student_info = false;
         unsigned int i = 0;
         comma_count = 0;
@@ -145,13 +153,14 @@ void CSVParser::parseFile(const std::string& csv_file_path) {
     std::cout << std::endl;
     for (const auto& kv : csv_info_map)
     {
-        std::cout << kv.first << ": " << kv.second.email_length << ", " << kv.second.name_length << ", " << kv.second.student_info_end_index << ", "  << kv.second.line_number << ", " << kv.second.line_length << std::endl;
+        std::cout << kv.first << ": " << kv.second.email_length << ", " << kv.second.name_length << ", " << kv.second.student_info_end_index << ", "  << kv.second.line_number << ", " << kv.second.line_length << ", " << kv.second.offset << std::endl;
+
     }
 
     m_headers.push_back(std::move(header_info));
     m_maps.push_back(std::move(csv_info_map));
     m_files.push_back(std::string(csv_file_path));
-
+    csv_file.close();
 }
 
 
@@ -184,12 +193,13 @@ bool CSVParser::updateAttendance(const std::string& qr, const std::string& sessi
             i++;
         }
     }
-
+    
     if (name_found)
     {
         
-        const auto& student_info = m_maps[i].at(qr);
-        const auto& header_info = m_headers[i];
+        auto& map = m_maps[i];
+        const auto& student_info = map.at(qr);
+        auto& header_info = m_headers[i];
         const std::string& csv_file_path = m_files[i];
         
 
@@ -228,13 +238,106 @@ bool CSVParser::updateAttendance(const std::string& qr, const std::string& sessi
         }
         else 
         {
-            // TODO Implement add session column that also updates the internal data structures of the parser
+            std::string line;
+            std::fstream csv_file;
+            std::fstream temp_csv_file;
+
+            csv_file.open(csv_file_path, std::ios_base::in);
+            temp_csv_file.open("temp.csv", std::ios_base::out);
+            if(std::getline(csv_file, line))
+            {
+                temp_csv_file << line.substr(0, line.length() - 1) + "," + session + "\r\n";
+            }
+            while (std::getline(csv_file, line))
+            {
+                if (line[line.length() - 1] == '\r')
+                {
+                    temp_csv_file << line.substr(0, line.length() - 1) + ",0\r\n";
+                }
+                else
+                {
+                    temp_csv_file << line + ",0";
+
+                }
+            }
+
+            csv_file.close();
+            temp_csv_file.close();
+            remove(csv_file_path.c_str());
+            rename("temp.csv", csv_file_path.c_str());
+
+            // updating internal data
+
+            for (auto& kv: map)
+            {
+                
+                kv.second.line_length += 2;
+    
+   
+                kv.second.offset += session.length() + 1 + 2 * (kv.second.line_number - 1);
+
+                
+
+            }
+
+            header_info.columns[session] = header_info.number_of_columns ;
+            header_info.number_of_columns += 1;
+            header_info.number_of_sessions += 1;
+
+            std::cout << "header_info: " <<  header_info.number_of_columns<< ", " << header_info.number_of_sessions <<  std::endl;
+            
+            for (auto kv : header_info.columns)
+            {
+                std::cout << kv.first << ": " << kv.second << ", ";
+            }
+            
+            std::cout << std::endl;
+            for (const auto& kv : map)
+            {
+                std::cout << kv.first << ": " << kv.second.email_length << ", " << kv.second.name_length << ", " << kv.second.student_info_end_index << ", "  << kv.second.line_number << ", " << kv.second.line_length << ", " << kv.second.offset << std::endl;
+            }
+
+
+
+            int session_index = header_info.columns.at(session);
+            int number_of_student_info_headers = header_info.number_of_columns - header_info.number_of_sessions;
+            session_index = session_index - number_of_student_info_headers; 
+
+            if (session_index < 0) // this cant happen, smth went really wrong in parsing for this to happen
+            {
+                qCritical() << "session index negative file path: " << csv_file_path.c_str() << ", Session: " << session.c_str();
+                return false;
+            }
+            else 
+            {
+                int position_to_write = student_info.offset + student_info.student_info_end_index + (session_index + 1) * 2 ;
+
+                std::cout << student_info.offset << "+" << student_info.student_info_end_index << "+" << (session_index + 1) * 2 << "=" << position_to_write << std::endl;
+                FILE * file_descriptor;
+                file_descriptor = fopen(csv_file_path.c_str(), "r+b");
+
+                if (file_descriptor != NULL) 
+                {
+                    fseek(file_descriptor, position_to_write, SEEK_SET);
+                    fputc('1', file_descriptor);
+                    fclose(file_descriptor);
+                    return true;
+
+                }
+
+            }
         }
 
         
 
     }
+    else
+    {
+        qWarning() << "Student not found: " << qr.c_str();
+    }
     return false;
 }
 
+
+ 
 }
