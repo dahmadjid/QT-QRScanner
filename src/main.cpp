@@ -53,13 +53,11 @@ int main(int argc, char *argv[])
     drop->hide();
 
     CSV::CSVParser parser;
-    auto students_info = parser.parseFile(CWD"/group_1.csv");
+    parser.parseFile(CWD"/group_1.csv");
    
 
-    for (const auto& kv : students_info)
-    {
-        std::cout << kv.first << ": " << kv.second.email_length << ", " << kv.second.name_length << ", " << kv.second.student_info_end_index << ", "  << kv.second.line_number << ", " << kv.second.line_length << std::endl;
-    }
+
+    parser.updateAttendance("AZER,AZER", "s2");
     return 0;
     // return a.exec();
 }

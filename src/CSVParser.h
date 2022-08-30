@@ -16,6 +16,7 @@ namespace CSV
         unsigned int student_info_end_index;
         unsigned int line_number;
         unsigned int line_length;
+        unsigned int offset;  
     };
     struct HeaderInfo
     {
@@ -27,10 +28,11 @@ namespace CSV
     {
 
     public:
-        std::vector<std::unordered_map<std::string, RowInfo>> parseMultiple(std::vector<std::string> files);
-        std::unordered_map<std::string, RowInfo> parseFile(const char* csv_file_path);
+        bool updateAttendance(const std::string& qr, const std::string& session);
+        void parseMultiple(const std::vector<std::string>& files);
+        void parseFile(const std::string& csv_file_path);
     private:
-
+        std::vector<std::unordered_map<std::string, RowInfo>> m_maps;
         std::vector<std::string> m_files;
         std::vector<HeaderInfo> m_headers;
 

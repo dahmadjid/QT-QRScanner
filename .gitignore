@@ -87,3 +87,14 @@ CMakeLists.txt.user
 /build-ninja/src/QRScanner_autogen/include/ui_EmailToolDialog.h
 /build-ninja/src/QRScanner_autogen/include/ui_mainwindow.h
 /.idea/vcs.xml
+.cache/clangd/index/Benchmark.cpp.745120832CD04954.idx
+.cache/clangd/index/Benchmark.h.2FE125EBD0CC1F5F.idx
+.cache/clangd/index/CSVParser.cpp.2173F1DCA7CCE47C.idx
+.cache/clangd/index/CSVParser.h.0D1A0CB18E079BA4.idx
+.cache/clangd/index/DetectedQRDialog.cpp.E42963F56A317A8C.idx
+.cache/clangd/index/DetectedQRDialog.h.A02055745F2AFB17.idx
+.cache/clangd/index/Dropdown.cpp.16D598E3B90BADF2.idx
+.cache/clangd/index/Dropdown.h.A3BE39048DE3775B.idx
+.cache/clangd/index/EmailToolDialog.cpp.E9FC34B0B95D8450.idx
+.cache/clangd/index/EmailToolDialog.h.8129DE01D908524D.idx
+.idea/inspectionProfiles/Project_Default.xml
