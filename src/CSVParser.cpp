@@ -161,6 +161,7 @@ void CSVParser::parseFile(const std::string& csv_file_path) {
     m_maps.push_back(std::move(csv_info_map));
     m_files.push_back(std::string(csv_file_path));
     csv_file.close();
+    ready = true;
 }
 
 
@@ -286,7 +287,7 @@ bool CSVParser::updateAttendance(const std::string& qr, const std::string& sessi
 
             std::cout << "header_info: " <<  header_info.number_of_columns<< ", " << header_info.number_of_sessions <<  std::endl;
             
-            for (auto kv : header_info.columns)
+            for (const auto& kv : header_info.columns)
             {
                 std::cout << kv.first << ": " << kv.second << ", ";
             }

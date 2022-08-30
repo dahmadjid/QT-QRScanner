@@ -10,9 +10,9 @@
 void Capture::run()     
 {
     sync = true;
-    cap = std::make_shared<cv::VideoCapture>(0);
+    m_cap = std::make_unique<cv::VideoCapture>(0);
     qInfo() << "init capture " << QThread::currentThread(); 
-    if (!cap->isOpened()) 
+    if (!m_cap->isOpened()) 
     {
         qCritical() << "cannot open camera";
     }
@@ -22,17 +22,17 @@ void Capture::getFrame()
 {
     if(sync)
     {
-        if (!cap->isOpened()) 
+        if (!m_cap->isOpened()) 
         {
             qCritical() << "cannot open camera";
             return;
         }
-        if (image != nullptr)
+        if (m_image != nullptr)
         {
-            *cap >> *image;
-            if (!image->empty())
+            *m_cap >> *m_image;
+            if (!m_image->empty())
             {
-                cv::cvtColor(*image, *image, cv::COLOR_BGR2RGB);
+                cv::cvtColor(*m_image, *m_image, cv::COLOR_BGR2RGB);
                 sync = false;
                 emit updated();
             }

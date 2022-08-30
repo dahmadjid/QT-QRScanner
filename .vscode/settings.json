@@ -76,6 +76,7 @@
         "variant": "cpp",
         "complex": "cpp",
         "shared_mutex": "cpp",
-        "qmainwindow": "cpp"
+        "qmainwindow": "cpp",
+        "qfiledialog": "cpp"
     }
 }

@@ -2,11 +2,13 @@
 #include <QDebug>
 #include "./ui_mainwindow.h"
 #include <QMovie>
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(QWidget *parent, std::shared_ptr<cv::Mat> image, Dropdown* drop, DetectedQRDialog* dialog)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , burger_animation_movie(QMovie(this))
-    
+    ,m_image(image)
+    ,m_drop(drop)
+    ,m_dialog(dialog)
 {
     ui->setupUi(this);
 // burgir button animation -----------------------------------------------------------------------------------------------------------
@@ -69,8 +71,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->camera->setStyleSheet("QLabel { background-color: transparent }");
 
-
-    
+    QObject::connect(m_drop, &Dropdown::textChanged, [&](const QString& text){m_session = text.toStdString(); qInfo() << m_session.c_str();});
+    QObject::connect(m_drop, &Dropdown::filesSelected, [&](const std::vector<std::string>& files){m_parser.parseMultiple(files);});
 }
 
 MainWindow::~MainWindow()
@@ -84,19 +86,19 @@ void MainWindow::updateFrame()
     
     
 
-    if (image != nullptr)
+    if (m_image != nullptr)
     {
         
         cv::QRCodeDetector qrDet;
         if (!detected_qr)
         {   
-            QImage img((uchar*)image->data, image->cols, image->rows,  QImage::Format_RGB888);
+            QImage img((uchar*)m_image->data, m_image->cols, m_image->rows,  QImage::Format_RGB888);
             QPixmap pixmap = QPixmap::fromImage(img);
             ui->camera->setPixmap(pixmap.scaled(ui->camera->width(), ui->camera->height(), Qt::KeepAspectRatioByExpanding));
             std::string qr;
             try
             {
-                qr = qrDet.detectAndDecode(*image);
+                qr = qrDet.detectAndDecode(*m_image);
             }
             catch(...)
             {
@@ -114,7 +116,23 @@ void MainWindow::updateFrame()
                         m_dialog->hide();
                     }
                 }); 
-                emit detectedQR(qr, 1); 
+                if (m_parser.ready)
+                {
+                    bool found = m_parser.updateAttendance(qr, m_session);
+                    if (found)
+                    {
+                        emit detectedQR(qr, 0); 
+
+                    }
+                    else
+                    {
+                        emit detectedQR(qr, 1); 
+                    }
+                }
+                else
+                {
+                    emit detectedQR(qr, 2);  // implement 2 so that it displays that you have to select a csv file
+                }
             }
         }
         emit updated(); // this calls Capture::setSync (essentially a semaphore behavior but way faster than qmutex)

@@ -18,7 +18,13 @@ signals:
 void emailToolButtonClicked();
 private:
     Ui::Dropdown *ui;
-
+    std::vector<std::string> m_files;
+signals:
+    void textChanged(const QString& text);
+    void filesSelected(const std::vector<std::string>& files);
+private slots:
+    void onFilesSelected();
+friend class MainWindow;
 };
 
 #endif // DROPDOWN_H

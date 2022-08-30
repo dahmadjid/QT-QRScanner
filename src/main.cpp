@@ -9,29 +9,28 @@
 #include "DetectedQRDialog.h"
 #include "Dropdown.h"
 #include "EmailToolDialog.h"
-#include "CSVParser.h"
 
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     Logger logger;
-    auto w = std::make_unique<MainWindow>();
     auto attendance_dialog = std::make_unique<DetectedQRDialog>();
     auto email_tool_dialog = std::make_unique<EmailToolDialog>();
 
-    auto drop = new Dropdown(w.get());
+    auto drop = new Dropdown();
     auto thread = new QThread();  // They delete themselves later
-    auto capture = new Capture(); 
-
-
+   
     auto mat = std::make_shared<cv::Mat>();
+   
+    auto capture = new Capture(mat); 
+
+    
+    auto w = std::make_unique<MainWindow>(nullptr, mat, drop, attendance_dialog.get());
+    drop->setParent(w.get());
     QTimer timer_refresh_rate;
     QThread::currentThread()->setObjectName("Main Thread");
     thread->setObjectName("Capture Thread");
-    w->m_dialog = attendance_dialog.get();
-    w->image = mat;
-    capture->image = mat;
     capture->moveToThread(thread);
     QObject::connect(thread, &QThread::started, capture, &Capture::run, Qt::QueuedConnection);
     QObject::connect(capture, &Capture::finished, thread, &QThread::quit, Qt::QueuedConnection);
@@ -52,12 +51,8 @@ int main(int argc, char *argv[])
     w->show();
     drop->hide();
 
-    CSV::CSVParser parser;
-    parser.parseFile(CWD"/group_1.csv");
    
 
 
-    parser.updateAttendance("12as3,email", "s3");
-    return 0;
-    // return a.exec();
+    return a.exec();
 }

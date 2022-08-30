@@ -11,6 +11,8 @@
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include "DetectedQRDialog.h"
+#include "CSVParser.h"
+#include "Dropdown.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -21,10 +23,9 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(QWidget *parent, std::shared_ptr<cv::Mat> image, Dropdown* drop, DetectedQRDialog* dialog);
     ~MainWindow();
-    std::shared_ptr<cv::Mat> image;
-    DetectedQRDialog* m_dialog; 
+    
 
 public slots:
     void updateFrame();
@@ -37,8 +38,12 @@ private:
     Ui::MainWindow *ui;
     QMovie burger_animation_movie;
     bool detected_qr = false;
-
     int movie_frames;
+    CSV::CSVParser m_parser;
+    std::string m_session = "Session";
+    std::shared_ptr<cv::Mat> m_image;
+    Dropdown* m_drop;
+    DetectedQRDialog* m_dialog; 
 
 };
 
