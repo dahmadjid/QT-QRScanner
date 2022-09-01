@@ -4,8 +4,10 @@
 #include <iostream>
 #include <vector>
 #include <unordered_map>
+#include "QrToPng.h"
+
 namespace CSV
-{ //
+{ 
 
 
 // TODO:  add invalid csv checks. test invalid csv. benchmarks.
@@ -33,13 +35,17 @@ namespace CSV
     public:
         bool updateAttendance(const std::string& qr, const std::string& session);
         void parseMultiple(const std::vector<std::string>& files);
-        void parseFile(const std::string& csv_file_path);
+        std::string getNameOnly(const std::string& qr);
+        void generateQRs(int group_index);
         bool ready = false;
     private:
+        void parseFile(const std::string& csv_file_path);
+
         std::vector<std::unordered_map<std::string, RowInfo>> m_maps;
         std::vector<std::string> m_files;
         std::vector<HeaderInfo> m_headers;
         
+    friend class MainWindow;
     };
 }
 

@@ -24,7 +24,7 @@ signals:
     void filesSelected(const std::vector<std::string>& files);
 private slots:
     void onFilesSelected();
-friend class MainWindow;
+
 };
 
 #endif // DROPDOWN_H

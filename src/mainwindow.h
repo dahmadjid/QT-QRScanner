@@ -29,11 +29,13 @@ public:
 
 public slots:
     void updateFrame();
+    void generateQRs();
 signals:
     void detectedQR(const std::string& qr, const int& state);
     
     void updated();
     void menuButtonClicked();
+
 private:
     Ui::MainWindow *ui;
     QMovie burger_animation_movie;

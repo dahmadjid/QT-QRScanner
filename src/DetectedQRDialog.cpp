@@ -13,7 +13,6 @@ DetectedQRDialog::DetectedQRDialog(QWidget *parent) :
     ui->dialog_background->setPixmap(bg.scaled(ui->dialog_background->width(), ui->dialog_background->height(), Qt::KeepAspectRatio));
     ui->dialog_background->setStyleSheet("QLabel { background-color: transparent }");
 
-
 }
 
 DetectedQRDialog::~DetectedQRDialog()

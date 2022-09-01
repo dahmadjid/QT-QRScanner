@@ -1,8 +1,6 @@
-#ifndef EMAILTOOLDIALOG_H
-#define EMAILTOOLDIALOG_H
+#pragma once
 
 #include <QWidget>
-
 namespace Ui {
 class EmailToolDialog;
 }
@@ -14,9 +12,10 @@ class EmailToolDialog : public QWidget
 public:
     explicit EmailToolDialog(QWidget *parent = nullptr);
     ~EmailToolDialog();
+signals:
+    void sendEmailsClicked();
 
 private:
     Ui::EmailToolDialog *ui;
 };
 
-#endif // EMAILTOOLDIALOG_H

@@ -39,9 +39,11 @@ add_executable(QRScanner
 )
 
 
-target_link_libraries(QRScanner PRIVATE Qt6::Widgets ${OpenCV_LIBS})
-
+target_link_libraries(QRScanner PRIVATE Qt6::Widgets ${OpenCV_LIBS} qrtopng)
 set_target_properties(QRScanner PROPERTIES
     WIN32_EXECUTABLE ON
     MACOSX_BUNDLE ON
 )
+
+
+

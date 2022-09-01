@@ -339,6 +339,57 @@ bool CSVParser::updateAttendance(const std::string& qr, const std::string& sessi
     return false;
 }
 
+std::string CSVParser::getNameOnly(const std::string& qr)
+{
+    int i = 0;
+    bool name_found = false;
+    for (const auto& map: m_maps)
+    {
+        if (map.find(qr) != map.end())
+        {
 
- 
+            name_found = true;
+            break;
+        }
+        else
+        {
+            i++;
+        }
+    }
+    if (name_found)
+    {
+        return qr.substr(m_maps[i].at(qr).email_length + 1, m_maps[i].at(qr).name_length);
+        
+    }
+    return "name not found";
 }
+ 
+void CSVParser::generateQRs(int group_index)
+{
+    if (group_index >= m_files.size())
+    {
+        return;
+    }
+    for (const auto& kv: m_maps[group_index])
+    {
+        // TODO add creation of dir, if files exists dont recreate them
+        std::string file_name = "QR/";   // make sure to create the directory if it doesnt exist
+        file_name += kv.first + "_QR.png";
+
+        auto exampleQrPng1 = QrToPng(file_name, 300, 3, kv.first, true, qrcodegen::QrCode::Ecc::MEDIUM);
+
+        if (!exampleQrPng1.writeToPNG())
+        {
+            qCritical() << "Failed to write QR. Make sure that directory QR is created";
+
+        }
+    }
+    qInfo() << "Done creating QRs";
+    
+
+}
+
+}
+
+
+   

@@ -2,6 +2,7 @@
 #include <QDebug>
 #include "./ui_mainwindow.h"
 #include <QMovie>
+
 MainWindow::MainWindow(QWidget *parent, std::shared_ptr<cv::Mat> image, Dropdown* drop, DetectedQRDialog* dialog)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -121,6 +122,8 @@ void MainWindow::updateFrame()
                     bool found = m_parser.updateAttendance(qr, m_session);
                     if (found)
                     {
+
+                        qr = m_parser.getNameOnly(qr);
                         emit detectedQR(qr, 0); 
 
                     }
@@ -141,4 +144,9 @@ void MainWindow::updateFrame()
     {
         qCritical() << "image is nullptr";
     }
+}
+
+void MainWindow::generateQRs()
+{
+    m_parser.generateQRs(0);
 }
