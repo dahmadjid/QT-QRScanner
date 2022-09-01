@@ -73,7 +73,7 @@ MainWindow::MainWindow(QWidget *parent, std::shared_ptr<cv::Mat> image, Dropdown
     ui->camera->setStyleSheet("QLabel { background-color: transparent }");
 
     QObject::connect(m_drop, &Dropdown::textChanged, [&](const QString& text){m_session = text.toStdString(); qInfo() << m_session.c_str();});
-    QObject::connect(m_drop, &Dropdown::filesSelected, [&](const std::vector<std::string>& files){m_parser.parseMultiple(files);});
+    QObject::connect(m_drop, &Dropdown::filesSelected, [&](const std::vector<std::string>& files){m_parser.parseMultiple(files);emit csvLoaded(files);});
 }
 
 MainWindow::~MainWindow()
@@ -146,7 +146,11 @@ void MainWindow::updateFrame()
     }
 }
 
-void MainWindow::generateQRs()
+void MainWindow::sendEmails(const EmailToolData& data)
 {
     m_parser.generateQRs(0);
+    if (data.attach_qr_state == Qt::Checked)
+    {
+        
+    }
 }

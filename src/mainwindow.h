@@ -13,7 +13,7 @@
 #include "DetectedQRDialog.h"
 #include "CSVParser.h"
 #include "Dropdown.h"
-
+#include "EmailToolDialog.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -29,13 +29,14 @@ public:
 
 public slots:
     void updateFrame();
-    void generateQRs();
+    void sendEmails(const EmailToolData& data);
+
 signals:
     void detectedQR(const std::string& qr, const int& state);
     
     void updated();
     void menuButtonClicked();
-
+    void csvLoaded(const std::vector<std::string>& files);
 private:
     Ui::MainWindow *ui;
     QMovie burger_animation_movie;

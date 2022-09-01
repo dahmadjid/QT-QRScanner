@@ -1,5 +1,4 @@
-#ifndef DROPDOWN_H
-#define DROPDOWN_H
+#pragma once
 
 #include <QWidget>
 
@@ -15,7 +14,7 @@ public:
     explicit Dropdown(QWidget *parent = nullptr);
     ~Dropdown();
 signals:
-void emailToolButtonClicked();
+    void emailToolButtonClicked();
 private:
     Ui::Dropdown *ui;
     std::vector<std::string> m_files;
@@ -27,4 +26,3 @@ private slots:
 
 };
 
-#endif // DROPDOWN_H

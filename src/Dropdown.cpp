@@ -22,7 +22,7 @@ Dropdown::Dropdown(QWidget *parent) :
      
 
     QObject::connect(ui->csv_button, &QPushButton::clicked, this, &Dropdown::onFilesSelected);
-
+    
 }
 
 Dropdown::~Dropdown()
@@ -38,12 +38,23 @@ void Dropdown::onFilesSelected()
     QString files_selected = "";
     if (files.size() > 0)
     {
-        for (int i = 0; i < files.size(); i++)
+        m_files.clear();
+        for (const auto& file: files)
         {
-            files_selected+=  "\"" + files[i] + "\" ";
-            m_files.push_back(files[i].toStdString());
+            for (int i = 0; i < file.length(); i++)
+            {
+                if (file[file.length() - i - 1] == '/')
+                {
+                    files_selected+=  "\"" + QString::fromStdString(file.toStdString().substr(file.length() - i, i)) + "\" ";
+                    break;
+                }
+            }
+            
+            m_files.push_back(file.toStdString());
         }
         qInfo() << "Files selected: " << files_selected;
+        
+
         ui->csv_lineedit->setText(files_selected);
 
         emit filesSelected(m_files);

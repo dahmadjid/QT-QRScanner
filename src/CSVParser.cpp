@@ -368,6 +368,7 @@ void CSVParser::generateQRs(int group_index)
 {
     if (group_index >= m_files.size())
     {
+        qInfo() << "Make sure to load CSV";
         return;
     }
     for (const auto& kv: m_maps[group_index])
