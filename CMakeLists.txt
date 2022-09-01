@@ -13,4 +13,4 @@ include_directories( ${OpenCV_INCLUDE_DIRS} )
 
 
 add_subdirectory(src)
-add_subdirectory(libs)
+# add_subdirectory(libs)

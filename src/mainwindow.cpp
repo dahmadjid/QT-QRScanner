@@ -146,11 +146,11 @@ void MainWindow::updateFrame()
     }
 }
 
-void MainWindow::sendEmails(const EmailToolData& data)
-{
-    m_parser.generateQRs(0);
-    if (data.attach_qr_state == Qt::Checked)
-    {
+// void MainWindow::sendEmails(const EmailToolData& data)
+// {
+//     m_parser.generateQRs(0);
+//     if (data.attach_qr_state == Qt::Checked)
+//     {
         
-    }
-}
+//     }
+// }

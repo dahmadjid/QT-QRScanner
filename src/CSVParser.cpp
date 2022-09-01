@@ -364,31 +364,31 @@ std::string CSVParser::getNameOnly(const std::string& qr)
     return "name not found";
 }
  
-void CSVParser::generateQRs(int group_index)
-{
-    if (group_index >= m_files.size())
-    {
-        qInfo() << "Make sure to load CSV";
-        return;
-    }
-    for (const auto& kv: m_maps[group_index])
-    {
-        // TODO add creation of dir, if files exists dont recreate them
-        std::string file_name = "QR/";   // make sure to create the directory if it doesnt exist
-        file_name += kv.first + "_QR.png";
+// void CSVParser::generateQRs(int group_index)
+// {
+//     if (group_index >= m_files.size())
+//     {
+//         qInfo() << "Make sure to load CSV";
+//         return;
+//     }
+//     for (const auto& kv: m_maps[group_index])
+//     {
+//         // TODO add creation of dir, if files exists dont recreate them
+//         std::string file_name = "QR/";   // make sure to create the directory if it doesnt exist
+//         file_name += kv.first + "_QR.png";
 
-        auto exampleQrPng1 = QrToPng(file_name, 300, 3, kv.first, true, qrcodegen::QrCode::Ecc::MEDIUM);
+//         auto exampleQrPng1 = QrToPng(file_name, 300, 3, kv.first, true, qrcodegen::QrCode::Ecc::MEDIUM);
 
-        if (!exampleQrPng1.writeToPNG())
-        {
-            qCritical() << "Failed to write QR. Make sure that directory QR is created";
+//         if (!exampleQrPng1.writeToPNG())
+//         {
+//             qCritical() << "Failed to write QR. Make sure that directory QR is created";
 
-        }
-    }
-    qInfo() << "Done creating QRs";
+//         }
+//     }
+//     qInfo() << "Done creating QRs";
     
 
-}
+// }
 
 }
 

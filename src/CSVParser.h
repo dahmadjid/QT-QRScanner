@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <unordered_map>
-#include "QrToPng.h"
+// #include "QrToPng.h"
 
 namespace CSV
 { 
@@ -36,7 +36,7 @@ namespace CSV
         bool updateAttendance(const std::string& qr, const std::string& session);
         void parseMultiple(const std::vector<std::string>& files);
         std::string getNameOnly(const std::string& qr);
-        void generateQRs(int group_index);
+        // void generateQRs(int group_index);
         bool ready = false;
     private:
         void parseFile(const std::string& csv_file_path);

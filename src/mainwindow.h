@@ -13,7 +13,7 @@
 #include "DetectedQRDialog.h"
 #include "CSVParser.h"
 #include "Dropdown.h"
-#include "EmailToolDialog.h"
+// #include "EmailToolDialog.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -29,7 +29,7 @@ public:
 
 public slots:
     void updateFrame();
-    void sendEmails(const EmailToolData& data);
+    // void sendEmails(const EmailToolData& data);
 
 signals:
     void detectedQR(const std::string& qr, const int& state);

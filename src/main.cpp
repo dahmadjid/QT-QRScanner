@@ -9,14 +9,14 @@
 #include "DetectedQRDialog.h"
 #include "Dropdown.h"
 #include "EmailToolDialog.h"
-#include "QrToPng.h"
+// #include "QrToPng.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     Logger logger;
     auto attendance_dialog = std::make_unique<DetectedQRDialog>();
-    auto email_tool_dialog = std::make_unique<EmailToolDialog>();
+    // auto email_tool_dialog = std::make_unique<EmailToolDialog>();
 
     auto drop = new Dropdown();
     auto thread = new QThread();  // They delete themselves later
@@ -43,9 +43,9 @@ int main(int argc, char *argv[])
     QObject::connect(w.get(), &MainWindow::detectedQR, attendance_dialog.get(), &DetectedQRDialog::display, Qt::DirectConnection);
     bool shown = false;
     QObject::connect(w.get(), &MainWindow::menuButtonClicked, [&]{if(shown){ drop->hide(); shown = false;} else{drop->show(); shown = true;}});
-    QObject::connect(drop, &Dropdown::emailToolButtonClicked, [&]{email_tool_dialog->show();shown = false; drop->hide();});
-    QObject::connect(email_tool_dialog.get(), &EmailToolDialog::sendEmailsClicked, w.get(), &MainWindow::sendEmails);
-    QObject::connect(w.get(), &MainWindow::csvLoaded, email_tool_dialog.get(), &EmailToolDialog::updateGroups);
+    // QObject::connect(drop, &Dropdown::emailToolButtonClicked, [&]{email_tool_dialog->show();shown = false; drop->hide();});
+    // QObject::connect(email_tool_dialog.get(), &EmailToolDialog::sendEmailsClicked, w.get(), &MainWindow::sendEmails);
+    // QObject::connect(w.get(), &MainWindow::csvLoaded, email_tool_dialog.get(), &EmailToolDialog::updateGroups);
     thread->start();
     timer_refresh_rate.start(16);
     drop->move(std::move(QPoint(1563, 180)));
