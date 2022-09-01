@@ -66,14 +66,16 @@ void CSVParser::parseFile(const std::string& csv_file_path) {
                 }
                 else if (comma_count == 1)
                 {
-                    if (i == line.length() - 1) 
+                    if (line[i] == ',' || line[i] == '\r') 
                     {
-                        name_length = i - email_length;
+                        name_length = i - email_length - 1 ;
+                        std::cout << "this" << std::endl;
 
                     }
                     else 
                     {
-                        name_length = i - email_length - 1;
+                        name_length = i - email_length;
+                        std::cout << "that" << std::endl;
                     }
                     comma_count += 1;
                 }
@@ -84,6 +86,7 @@ void CSVParser::parseFile(const std::string& csv_file_path) {
                 
                 if ((line[i + 1] == '0' || line[i + 1] == '1') && (line[i + 2] == ',' || line[i + 2] == '\r' || (i + 2) >= line.length()))
                 {
+                    std::cout << "end of student info" << std::endl;
                     student_info_end_index = i - 1;
                     end_of_student_info = true;
                     break;
@@ -117,7 +120,15 @@ void CSVParser::parseFile(const std::string& csv_file_path) {
 
         if (end_of_student_info == false) // this is when there is no sessions
         {
-            student_info_end_index = i - 1;  // -1 because \r is counted
+            if (line[i-1] == '\r')
+            {
+                student_info_end_index = i - 2;  // -2 because \r is counted and i is incremented one more time before breaking the loop
+            }
+            else 
+            {
+                student_info_end_index = i - 1;  // -1 because i is incremented one more time before breaking the loop
+
+            }
         }
         if (header_row)
         {
@@ -167,7 +178,9 @@ void CSVParser::parseFile(const std::string& csv_file_path) {
 
 void CSVParser::parseMultiple(const std::vector<std::string>& files)
 {
-
+    m_headers.clear();
+    m_maps.clear();
+    m_files.clear();
     for (const auto& f: files)
     {
         parseFile(f);

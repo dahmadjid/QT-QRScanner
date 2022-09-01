@@ -19,11 +19,12 @@ int main(int argc, char *argv[])
     // auto email_tool_dialog = std::make_unique<EmailToolDialog>();
 
     auto drop = new Dropdown();
-    auto thread = new QThread();  // They delete themselves later
-   
     auto mat = std::make_shared<cv::Mat>();
-   
+
+    auto thread = new QThread();  // They delete themselves later
     auto capture = new Capture(mat); 
+   
+   
 
     
     auto w = std::make_unique<MainWindow>(nullptr, mat, drop, attendance_dialog.get());
