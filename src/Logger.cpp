@@ -21,9 +21,6 @@
 #define UNDL(x)	"\x1B[4m" << x << RST
 
 
-// #define LOG_TO_FILE
-#define LOG_TO_CONSOLE
-
 const char* log_file_path = "logs.txt";
 
 

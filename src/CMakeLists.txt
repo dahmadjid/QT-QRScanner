@@ -1,5 +1,8 @@
 add_compile_definitions(QT_MESSAGELOGCONTEXT)
 # add_compile_definitions(SCALED_DOWN)
+add_compile_definitions(LOG_TO_CONSOLE)
+add_compile_definitions(LOG_TO_FILE)
+
 
 if (WIN32)
 add_compile_definitions(WINDOWS)

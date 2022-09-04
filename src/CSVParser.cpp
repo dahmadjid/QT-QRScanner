@@ -3,7 +3,7 @@
 #include <QDebug>
 #include <QString>
 #include <cstdio>
-
+#include "Benchmark.h"
 
 static std::istream& safeGetline(std::istream& is, std::string& t)
 {
@@ -41,8 +41,9 @@ static std::istream& safeGetline(std::istream& is, std::string& t)
 namespace CSV {
 
 
-void CSVParser::parseFile(const std::string& csv_file_path) {
-
+void CSVParser::parseFile(const std::string& csv_file_path) 
+{
+    Benchmark("Parse File");
     unsigned int name_length = 0;
     unsigned int email_length = 0;
     unsigned int comma_count = 0;
@@ -64,10 +65,10 @@ void CSVParser::parseFile(const std::string& csv_file_path) {
     {
         if (line.length() < 4)
         {
-            qInfo() << "ignoring empty line: " << line_number ;
+            qDebug() << "ignoring empty line: " << line_number ;
             continue;
         }
-        std::cout << (int)line[line.length() - 1] << std::endl; 
+        qInfo() << (int)line[line.length() - 1]; 
         end_of_student_info = false;
         unsigned int i = 0;
         comma_count = 0;
@@ -106,13 +107,11 @@ void CSVParser::parseFile(const std::string& csv_file_path) {
                     if (line[i] == ',')
                     {
                         name_length = i - email_length - 1 ;
-                        std::cout << "this" << std::endl;
 
                     }
                     else 
                     {
                         name_length = i - email_length;
-                        std::cout << "that" << std::endl;
                     }
                     comma_count += 1;
                 }
@@ -123,7 +122,6 @@ void CSVParser::parseFile(const std::string& csv_file_path) {
                 
                 if ((line[i + 1] == '0' || line[i + 1] == '1') && (line[i + 2] == ',' || (i + 2) >= line.length()))
                 {
-                    std::cout << "end of student info" << std::endl;
                     student_info_end_index = i - 1;
                     end_of_student_info = true;
                     break;
@@ -187,20 +185,23 @@ void CSVParser::parseFile(const std::string& csv_file_path) {
         #endif
         line_number+=1;
     }
-    std::cout << "header_info: " <<  header_info.number_of_columns<< ", " << header_info.number_of_sessions <<  std::endl;
+    qInfo() << "Header Info:--------------------------------------";
+    qInfo() <<  header_info.number_of_columns<< ", " << header_info.number_of_sessions;
     
     for (auto kv : header_info.columns)
     {
-        std::cout << kv.first << ": " << kv.second << ", ";
+        qInfo() << kv.first.c_str() << ": " << kv.second << ", ";
     }
+    qInfo() << "---------------------------------------------------";
     
-    std::cout << std::endl;
+
+    qInfo() << "CSV Info Map:--------------------------------------";
     for (const auto& kv : csv_info_map)
     {
-        std::cout << kv.first << ": " << kv.second.email_length << ", " << kv.second.name_length << ", " << kv.second.student_info_end_index << ", "  << kv.second.line_number << ", " << kv.second.line_length << ", " << kv.second.offset << std::endl;
+        qInfo() << kv.first.c_str() << ": " << kv.second.email_length << ", " << kv.second.name_length << ", " << kv.second.student_info_end_index << ", "  << kv.second.line_number << ", " << kv.second.line_length << ", " << kv.second.offset;
 
     }
-
+    qInfo() << "---------------------------------------------------";
     m_headers.push_back(std::move(header_info));
     m_maps.push_back(std::move(csv_info_map));
     m_files.push_back(std::string(csv_file_path));
@@ -224,7 +225,7 @@ void CSVParser::parseMultiple(const std::vector<std::string>& files)
 
 bool CSVParser::updateAttendance(const std::string& qr, const std::string& session)
 {
-
+    Benchmark("Update Attendance");
     int i = 0;
     bool name_found = false;
     for (const auto& map: m_maps)
@@ -267,7 +268,7 @@ bool CSVParser::updateAttendance(const std::string& qr, const std::string& sessi
             {
                 int position_to_write = student_info.offset + student_info.student_info_end_index + (session_index + 1) * 2 ;
 
-                std::cout << student_info.offset << "+" << student_info.student_info_end_index << "+" << (session_index + 1) * 2 << "=" << position_to_write << std::endl;
+                qInfo() << student_info.offset << "+" << student_info.student_info_end_index << "+" << (session_index + 1) * 2 << "=" << position_to_write;
                 FILE * file_descriptor;
                 file_descriptor = fopen(csv_file_path.c_str(), "r+b");
 
@@ -319,7 +320,7 @@ bool CSVParser::updateAttendance(const std::string& qr, const std::string& sessi
             rename("temp.csv", csv_file_path.c_str());
 
             // updating internal data
-
+            qInfo() << "Updating internal data:";
             for (auto& kv: map)
             {
                 
@@ -336,18 +337,23 @@ bool CSVParser::updateAttendance(const std::string& qr, const std::string& sessi
             header_info.number_of_columns += 1;
             header_info.number_of_sessions += 1;
 
-            std::cout << "header_info: " <<  header_info.number_of_columns<< ", " << header_info.number_of_sessions <<  std::endl;
+            qInfo() << "Header Info:--------------------------------------";
+            qInfo() <<  header_info.number_of_columns<< ", " << header_info.number_of_sessions;
             
-            for (const auto& kv : header_info.columns)
+            for (auto kv : header_info.columns)
             {
-                std::cout << kv.first << ": " << kv.second << ", ";
+                qInfo() << kv.first.c_str() << ": " << kv.second << ", ";
             }
+            qInfo() << "---------------------------------------------------";
             
-            std::cout << std::endl;
+
+            qInfo() << "CSV Info Map:--------------------------------------";
             for (const auto& kv : map)
             {
-                std::cout << kv.first << ": " << kv.second.email_length << ", " << kv.second.name_length << ", " << kv.second.student_info_end_index << ", "  << kv.second.line_number << ", " << kv.second.line_length << ", " << kv.second.offset << std::endl;
+                qInfo() << kv.first.c_str() << ": " << kv.second.email_length << ", " << kv.second.name_length << ", " << kv.second.student_info_end_index << ", "  << kv.second.line_number << ", " << kv.second.line_length << ", " << kv.second.offset;
+
             }
+            qInfo() << "---------------------------------------------------";
 
 
 
@@ -364,7 +370,7 @@ bool CSVParser::updateAttendance(const std::string& qr, const std::string& sessi
             {
                 int position_to_write = student_info.offset + student_info.student_info_end_index + (session_index + 1) * 2 ;
 
-                std::cout << student_info.offset << "+" << student_info.student_info_end_index << "+" << (session_index + 1) * 2 << "=" << position_to_write << std::endl;
+                qInfo() << student_info.offset << "+" << student_info.student_info_end_index << "+" << (session_index + 1) * 2 << "=" << position_to_write;
                 FILE * file_descriptor;
                 file_descriptor = fopen(csv_file_path.c_str(), "r+b");
 

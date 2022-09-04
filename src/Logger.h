@@ -36,3 +36,4 @@ public:
 	/// @brief The function which handles the logging of text.
     static void messageOutput(QtMsgType type, const QMessageLogContext& context, const QString& msg);
 };
+
