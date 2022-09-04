@@ -2,7 +2,6 @@
 #include <QDebug>
 #include <QThread>
 #include <memory>
-#define SRC CWD"/src/"
 
 
 

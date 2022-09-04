@@ -1,5 +1,11 @@
 add_compile_definitions(QT_MESSAGELOGCONTEXT)
-ADD_DEFINITIONS( -DCWD=\"${CMAKE_SOURCE_DIR}\" )
+
+if (WIN32)
+add_compile_definitions(WINDOWS)
+else()
+add_compile_definitions(LINUX)
+endif()
+
 add_compile_options(-Wall -Wextra -Wpedantic)
 set(PROJECT_SOURCES
         main.cpp
@@ -38,16 +44,8 @@ add_executable(QRScanner
     ${PROJECT_FORMS}
 )
 
-target_include_directories(QRScanner PUBLIC /home/madjid/Codes/qt/qtbase-dev/include/ 
-                /home/madjid/Codes/qt/qtbase-dev/include/QtWidgets/
-                /home/madjid/Codes/qt/qtbase-dev/include/QtCore/
-                /home/madjid/Codes/qt/qtbase-dev/include/QtGui/)
 
-
-target_link_libraries(QRScanner PRIVATE ${OpenCV_LIBS} /home/madjid/Codes/qt/qtbase-dev/lib/libQt6Core.a
-/home/madjid/Codes/qt/qtbase-dev/lib/libQt6Gui.a
-/home/madjid/Codes/qt/qtbase-dev/lib/libQt6Widgets.a
-glib-2.0) # qrtopng)
+target_link_libraries(QRScanner PRIVATE Qt6::Widgets ${OpenCV_LIBS}) # qrtopng)
 set_target_properties(QRScanner PROPERTIES
     WIN32_EXECUTABLE ON
     MACOSX_BUNDLE ON

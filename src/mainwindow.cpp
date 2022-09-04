@@ -13,34 +13,34 @@ MainWindow::MainWindow(QWidget *parent, std::shared_ptr<cv::Mat> image, Dropdown
 {
     ui->setupUi(this);
 // burgir button animation -----------------------------------------------------------------------------------------------------------
-    burger_animation_movie.setFileName(CWD"/resources/burger.gif");
-    burger_animation_movie.start();
-    burger_animation_movie.setPaused(true);
+    // burger_animation_movie.setFileName(CWD"/resources/burger.gif");
+    // burger_animation_movie.start();
+    // burger_animation_movie.setPaused(true);
 
-    // jumps to the initial state, apparently i need to go frame by frame.
-    // jumptoframe(14) directly doesnt work. investigate later
-    for (int i = 0; i<=14; i++)
-    {
-        burger_animation_movie.jumpToFrame(i);
-    }
+    // // jumps to the initial state, apparently i need to go frame by frame.
+    // // jumptoframe(14) directly doesnt work. investigate later
+    // for (int i = 0; i<=14; i++)
+    // {
+    //     burger_animation_movie.jumpToFrame(i);
+    // }
 
-    ui->menu_button->setIcon(burger_animation_movie.currentPixmap());
-    ui->menu_button->setIconSize({74,74});
-    ui->menu_button->setFlat(true);
-    ui->menu_button->setStyleSheet("QPushButton { background-color: transparent }");
-    ui->menu_button->setStyleSheet("QPushButton:pressed { background-color: rgba(0, 0, 0, 0);border-style: inset;border-width: 0px;}");
-    QObject::connect(&burger_animation_movie, &QMovie::frameChanged, [=]{
-        ui->menu_button->setIcon(burger_animation_movie.currentPixmap());
-        ui->menu_button->setIconSize({74,74});
-        if (burger_animation_movie.currentFrameNumber() == 25)
-        {
-            burger_animation_movie.setPaused(true);
-        }
-        else if (burger_animation_movie.currentFrameNumber() == 13)
-        {
-            burger_animation_movie.setPaused(true);
-        }
-    });
+    // ui->menu_button->setIcon(burger_animation_movie.currentPixmap());
+    // ui->menu_button->setIconSize({74,74});
+    // ui->menu_button->setFlat(true);
+    // ui->menu_button->setStyleSheet("QPushButton { background-color: transparent }");
+    // ui->menu_button->setStyleSheet("QPushButton:pressed { background-color: rgba(0, 0, 0, 0);border-style: inset;border-width: 0px;}");
+    // QObject::connect(&burger_animation_movie, &QMovie::frameChanged, [=]{
+    //     ui->menu_button->setIcon(burger_animation_movie.currentPixmap());
+    //     ui->menu_button->setIconSize({74,74});
+    //     if (burger_animation_movie.currentFrameNumber() == 25)
+    //     {
+    //         burger_animation_movie.setPaused(true);
+    //     }
+    //     else if (burger_animation_movie.currentFrameNumber() == 13)
+    //     {
+    //         burger_animation_movie.setPaused(true);
+    //     }
+    // });
 
     QObject::connect(ui->menu_button, &QPushButton::clicked, [=]{
 
@@ -49,26 +49,41 @@ MainWindow::MainWindow(QWidget *parent, std::shared_ptr<cv::Mat> image, Dropdown
     });
 
 // Logos -------------------------------------------------------------------------------------------------------------------------------
-    QPixmap bg(CWD"/resources/background.png");
+#ifdef LINUX
+    QPixmap bg("resources/background.png");
+    QPixmap wameedh_logo("resources/wameedh_logo.png");
+    QPixmap event_logo("resources/schlumberger.png");
+    QPixmap sponsor_logo("resources/deadline.png");
+    QPixmap scan_img("resources/scan_text.png");
+    QPixmap burger_img("resources/burger.png");
+    
+#endif
+#ifdef WINDOWS
+    QPixmap bg("resources\\background.png");
+    QPixmap wameedh_logo("resources\\wameedh_logo.png");
+    QPixmap event_logo("resources\\schlumberger.png");
+    QPixmap sponsor_logo("resources\\deadline.png");
+    QPixmap scan_img("resources\\scan_text.png");
+    QPixmap burger_img("resources\\burger.png");
+    
+#endif
     ui->background->setPixmap(bg.scaled(ui->background->width(), ui->background->height(), Qt::KeepAspectRatio));
     
-    QPixmap wameedh_logo(CWD"/resources/wameedh_logo.png");
     ui->logo_center->setPixmap(wameedh_logo.scaled(ui->logo_center->width(), ui->logo_center->height(), Qt::KeepAspectRatio));
     ui->logo_center->setStyleSheet("QLabel { background-color: transparent }");
 
-    QPixmap event_logo(CWD"/resources/schlumberger.png");
     ui->logo_right->setPixmap(event_logo.scaled(ui->logo_right->width(), ui->logo_right->height(), Qt::KeepAspectRatio));
     ui->logo_right->setStyleSheet("QLabel { background-color: transparent }");
 
-    QPixmap sponsor_logo(CWD"/resources/deadline.png");
     ui->logo_left->setPixmap(sponsor_logo.scaled(ui->logo_left->width(), ui->logo_left->height(), Qt::KeepAspectRatio));
     ui->logo_left->setStyleSheet("QLabel { background-color: transparent }");
 
-    QPixmap scan_img(CWD"/resources/scan_text.png");
     ui->scan_text->setPixmap(scan_img.scaled(ui->scan_text->width(), ui->scan_text->height(), Qt::KeepAspectRatio));
     ui->scan_text->setStyleSheet("QLabel { background-color: transparent }");
 
-
+    ui->menu_button->setIcon(burger_img.scaled(ui->menu_button->width(), ui->menu_button->height(), Qt::KeepAspectRatio));
+    ui->menu_button->setStyleSheet("QPushButton { background-color: transparent }");
+    ui->menu_button->setStyleSheet("QPushButton:pressed { background-color: rgba(0, 0, 0, 0);border-style: inset;border-width: 0px;}");
 
     ui->camera->setStyleSheet("QLabel { background-color: transparent }");
 

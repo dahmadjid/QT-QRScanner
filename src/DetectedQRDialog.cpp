@@ -9,7 +9,14 @@ DetectedQRDialog::DetectedQRDialog(QWidget *parent) :
     setStyleSheet("background:transparent;");
     setAttribute(Qt::WA_TranslucentBackground);
     setWindowFlags(Qt::FramelessWindowHint);
-    QPixmap bg(CWD"/resources/dialog_background.png");
+
+    #ifdef LINUX
+    QPixmap bg("resources/dialog_background.png");
+    #endif 
+
+    #ifdef WINDOWS
+    QPixmap bg("resources\\dialog_background.png");
+    #endif 
     ui->dialog_background->setPixmap(bg.scaled(ui->dialog_background->width(), ui->dialog_background->height(), Qt::KeepAspectRatio));
     ui->dialog_background->setStyleSheet("QLabel { background-color: transparent }");
 

@@ -9,7 +9,13 @@ Dropdown::Dropdown(QWidget *parent) :
     setStyleSheet("background:transparent;");
     setAttribute(Qt::WA_TranslucentBackground);
     setWindowFlags(Qt::FramelessWindowHint);
-    QPixmap bg(CWD"/resources/dropdown.png");
+    #ifdef LINUX
+    QPixmap bg("resources/dropdown.png");
+    #endif
+
+    #ifdef WINDOWS
+    QPixmap bg("resources\\dropdown.png");
+    #endif
     ui->background->setPixmap(bg.scaled(ui->background->width(), ui->background->height(), Qt::KeepAspectRatio));
     ui->background->setStyleSheet("QLabel { background-color: transparent }");
 
@@ -34,7 +40,7 @@ Dropdown::~Dropdown()
 
 void Dropdown::onFilesSelected()
 {
-    QStringList files = QFileDialog::getOpenFileNames(this, tr("Open CSV file of students"), CWD, tr("CSV Files (*.csv)"));
+    QStringList files = QFileDialog::getOpenFileNames(this, tr("Open CSV file of students"), "", tr("CSV Files (*.csv)"));
     QString files_selected = "";
     if (files.size() > 0)
     {

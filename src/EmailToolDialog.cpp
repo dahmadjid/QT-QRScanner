@@ -9,7 +9,13 @@ EmailToolDialog::EmailToolDialog(QWidget *parent) :
     setStyleSheet("background:transparent;");
     setAttribute(Qt::WA_TranslucentBackground);
     // setWindowFlags(Qt::FramelessWindowHint);
-    QPixmap bg(CWD"/resources/email_dialog_background.png");
+    #ifdef LINUX
+    QPixmap bg("resources/email_dialog_background.png");
+    #endif
+
+    #ifdef WINDOWS
+    QPixmap bg("resources\\email_dialog_background.png");
+    #endif
     ui->background->setPixmap(bg.scaled(ui->background->width(), ui->background->height(), Qt::KeepAspectRatio));
     ui->background->setStyleSheet("QLabel { background-color: transparent }");
     QObject::connect(ui->send_emails_button, &QPushButton::clicked, [&]{emit sendEmailsClicked(m_data);});
