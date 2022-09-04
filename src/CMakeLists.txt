@@ -38,8 +38,16 @@ add_executable(QRScanner
     ${PROJECT_FORMS}
 )
 
+target_include_directories(QRScanner PUBLIC /home/madjid/Codes/qt/qtbase-dev/include/ 
+                /home/madjid/Codes/qt/qtbase-dev/include/QtWidgets/
+                /home/madjid/Codes/qt/qtbase-dev/include/QtCore/
+                /home/madjid/Codes/qt/qtbase-dev/include/QtGui/)
 
-target_link_libraries(QRScanner PRIVATE Qt6::Widgets ${OpenCV_LIBS}) # qrtopng)
+
+target_link_libraries(QRScanner PRIVATE ${OpenCV_LIBS} /home/madjid/Codes/qt/qtbase-dev/lib/libQt6Core.a
+/home/madjid/Codes/qt/qtbase-dev/lib/libQt6Gui.a
+/home/madjid/Codes/qt/qtbase-dev/lib/libQt6Widgets.a
+glib-2.0) # qrtopng)
 set_target_properties(QRScanner PROPERTIES
     WIN32_EXECUTABLE ON
     MACOSX_BUNDLE ON
