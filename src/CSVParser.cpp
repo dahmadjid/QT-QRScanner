@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QString>
 #include <cstdio>
+#include <string>
 namespace CSV {
 
 
@@ -30,20 +31,26 @@ void CSVParser::parseFile(const std::string& csv_file_path) {
     {
         if (line.length() < 4)
         {
-            qInfo() << "ignoring empty line: " << line_number ;
             continue;
+        }
+        if (line[line.length() - 1] == '\r')
+        {
+            line = line.substr(0, line.length() - 1);
         }
         end_of_student_info = false;
         unsigned int i = 0;
         comma_count = 0;
         for (i = 0; i < line.length(); i++)
         {
-            
-            
+
             if (line[i] == ',' || (i == line.length() - 1))
             {
                 if (header_row)  // adds header element when comma reached in header row
                 {
+                    if (line[i] != ',')
+                    {
+                        header_element+=line[i];
+                    }
                     if(header_info.columns.find(header_element) == header_info.columns.end())
                     {
                         header_info.columns[header_element] = comma_count;
@@ -66,7 +73,7 @@ void CSVParser::parseFile(const std::string& csv_file_path) {
                 }
                 else if (comma_count == 1)
                 {
-                    if (line[i] == ',' || line[i] == '\r') 
+                    if (line[i] == ',')
                     {
                         name_length = i - email_length - 1 ;
                         std::cout << "this" << std::endl;
@@ -84,7 +91,7 @@ void CSVParser::parseFile(const std::string& csv_file_path) {
                     comma_count += 1;
                 }
                 
-                if ((line[i + 1] == '0' || line[i + 1] == '1') && (line[i + 2] == ',' || line[i + 2] == '\r' || (i + 2) >= line.length()))
+                if ((line[i + 1] == '0' || line[i + 1] == '1') && (line[i + 2] == ',' || (i + 2) >= line.length()))
                 {
                     std::cout << "end of student info" << std::endl;
                     student_info_end_index = i - 1;
@@ -92,59 +99,51 @@ void CSVParser::parseFile(const std::string& csv_file_path) {
                     break;
                 }
             }
-            else if (header_row)
+            else
             {
-                if (i == line.length() - 1) // this adds the last header element 
-                {
-                    if(header_info.columns.find(header_element) == header_info.columns.end())
-                    {
-                        header_info.columns[header_element] = comma_count;
-                    }
-                    else
-                    {
+                header_element+=line[i];
+            }
+//            else if (header_row)
+//            {
+//                if (i == line.length() - 1) // this adds the last header element
+//                {
+//                    if(header_info.columns.find(header_element) == header_info.columns.end())
+//                    {
+//                        header_info.columns[header_element] = comma_count;
+//                    }
+//                    else
+//                    {
 
-                        header_element += "_";
-                        header_element +=  std::to_string(duplicate_number);
-                        header_info.columns[header_element] = comma_count;
-                        duplicate_number += 1;
-                    }
+//                        header_element += "_";
+//                        header_element +=  std::to_string(duplicate_number);
+//                        header_info.columns[header_element] = comma_count;
+//                        duplicate_number += 1;
+//                    }
                     
-                    header_element = "";
-                }
-                else // construct the header element between each comma
-                {
-                    header_element+=line[i];
-                }
-            }                
+//                    header_element = "";
+//                }
+//                else // construct the header element between each comma
+//                {
+//                    header_element+=line[i];
+//                }
+
         }
 
         if (end_of_student_info == false) // this is when there is no sessions
         {
-            if (line[i-1] == '\r')
-            {
-                student_info_end_index = i - 2;  // -2 because \r is counted and i is incremented one more time before breaking the loop
-            }
-            else 
-            {
-                student_info_end_index = i - 1;  // -1 because i is incremented one more time before breaking the loop
 
-            }
+            student_info_end_index = i - 1;  // -1 because i is incremented one more time before breaking the loop
         }
         if (header_row)
         {
             header_info.number_of_columns = comma_count;
             header_row = false;
-            offset += line.length() + 1;
+            offset += line.length() + 2;
         }
         else
         {
             unsigned int line_length = line.length();
             std::string temp =  line.substr(0, email_length + name_length + 1);
-
-            if (temp[temp.length() - 1] == '\r')
-            {
-                temp = temp.substr(0, temp.length() - 1);
-            }
             csv_info_map[temp] = {email_length, name_length, student_info_end_index, line_number, line_length, offset};
             header_info.number_of_sessions = header_info.number_of_columns - comma_count;
             offset += line_length + 1;
@@ -227,7 +226,6 @@ bool CSVParser::updateAttendance(const std::string& qr, const std::string& sessi
 
             if (session_index < 0) // this cant happen, smth went really wrong in parsing for this to happen
             {
-                qCritical() << "session index negative file path: " << csv_file_path.c_str() << ", Session: " << session.c_str();
                 return false;
             }
             else 
@@ -258,21 +256,32 @@ bool CSVParser::updateAttendance(const std::string& qr, const std::string& sessi
 
             csv_file.open(csv_file_path, std::ios_base::in);
             temp_csv_file.open("temp.csv", std::ios_base::out);
-            if(std::getline(csv_file, line))
+            if (std::getline(csv_file, line))
             {
-                temp_csv_file << line.substr(0, line.length() - 1) + "," + session + "\r\n";
-            }
-            while (std::getline(csv_file, line))
-            {
+
                 if (line[line.length() - 1] == '\r')
                 {
-                    temp_csv_file << line.substr(0, line.length() - 1) + ",0\r\n";
+                    line = line.substr(0, line.length() - 1);
                 }
-                else
-                {
-                    temp_csv_file << line + ",0";
 
+                temp_csv_file << line + "," + session + "\n";
+            }
+
+
+
+
+            while (std::getline(csv_file, line))
+            {
+
+
+                if (line[line.length() - 1] == '\r')
+                {
+                    line = line.substr(0, line.length() - 1);
                 }
+
+                temp_csv_file << line + ",0\n";
+
+
             }
 
             csv_file.close();
@@ -319,7 +328,6 @@ bool CSVParser::updateAttendance(const std::string& qr, const std::string& sessi
 
             if (session_index < 0) // this cant happen, smth went really wrong in parsing for this to happen
             {
-                qCritical() << "session index negative file path: " << csv_file_path.c_str() << ", Session: " << session.c_str();
                 return false;
             }
             else 
