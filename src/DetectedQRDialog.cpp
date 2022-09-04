@@ -1,6 +1,9 @@
 #include "DetectedQRDialog.h"
 #include "ui_DetectedQRDialog.h"
 #include <QPalette>
+
+#define SD(x) static_cast<int>(x*0.7111111)
+
 DetectedQRDialog::DetectedQRDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DetectedQRDialog)
@@ -17,6 +20,14 @@ DetectedQRDialog::DetectedQRDialog(QWidget *parent) :
     #ifdef WINDOWS
     QPixmap bg("resources\\dialog_background.png");
     #endif 
+
+    #ifdef SCALED_DOWN
+    setGeometry({0,0,1366,768});
+    ui->dialog_background->setGeometry({0,0,1366,768});
+    ui->attendance_label->setGeometry({SD(640), SD(540), SD(640), SD(100)});
+    ui->name_label->setGeometry({SD(640), SD(440), SD(640), SD(100)});
+
+    #endif
     ui->dialog_background->setPixmap(bg.scaled(ui->dialog_background->width(), ui->dialog_background->height(), Qt::KeepAspectRatio));
     ui->dialog_background->setStyleSheet("QLabel { background-color: transparent }");
 

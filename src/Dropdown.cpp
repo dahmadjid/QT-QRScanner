@@ -1,6 +1,9 @@
 #include "Dropdown.h"
 #include "ui_Dropdown.h"
 #include <QFileDialog>
+
+#define SD(x) static_cast<int>(x*0.7111111)
+
 Dropdown::Dropdown(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Dropdown)
@@ -15,6 +18,17 @@ Dropdown::Dropdown(QWidget *parent) :
 
     #ifdef WINDOWS
     QPixmap bg("resources\\dropdown.png");
+    #endif
+
+    #ifdef SCALED_DOWN
+    setGeometry({0,0,SD(214),SD(390)});
+    ui->background->setGeometry({0, 0 ,SD(214) ,SD(390)});
+    ui->csv_button->setGeometry({SD(7), SD(192) ,SD(80) ,SD(30)});
+    ui->csv_lineedit->setGeometry({SD(87), SD(192) ,SD(120) ,SD(30)});
+    ui->email_tool_button->setGeometry({SD(7), SD(99) ,SD(200) ,SD(30)});
+    ui->session_label->setGeometry({SD(7), SD(291) ,SD(80) ,SD(30)});
+    ui->session_lineedit->setGeometry({SD(87), SD(291) ,SD(120) ,SD(30)});
+
     #endif
     ui->background->setPixmap(bg.scaled(ui->background->width(), ui->background->height(), Qt::KeepAspectRatio));
     ui->background->setStyleSheet("QLabel { background-color: transparent }");

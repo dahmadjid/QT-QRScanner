@@ -2,6 +2,7 @@
 #include <QDebug>
 #include "./ui_mainwindow.h"
 #include <QMovie>
+#define SD(x) static_cast<int>(x*0.7111111)
 
 MainWindow::MainWindow(QWidget *parent, std::shared_ptr<cv::Mat> image, Dropdown* drop, DetectedQRDialog* dialog)
     : QMainWindow(parent)
@@ -12,6 +13,9 @@ MainWindow::MainWindow(QWidget *parent, std::shared_ptr<cv::Mat> image, Dropdown
     ,m_dialog(dialog)
 {
     ui->setupUi(this);
+    #ifdef SCALED_DOWN
+setGeometry({0,0,1366,768});
+    #endif
 // burgir button animation -----------------------------------------------------------------------------------------------------------
     // burger_animation_movie.setFileName(CWD"/resources/burger.gif");
     // burger_animation_movie.start();
@@ -66,6 +70,16 @@ MainWindow::MainWindow(QWidget *parent, std::shared_ptr<cv::Mat> image, Dropdown
     QPixmap scan_img("resources\\scan_text.png");
     QPixmap burger_img("resources\\burger.png");
     
+#endif
+#ifdef SCALED_DOWN
+    ui->background->setGeometry({0,0,1366,768});
+    ui->camera->setGeometry({SD(710),SD(290),SD(500)+1,SD(500)+1});  // +1 because camera would have a small white space to the right which is annoying
+    ui->logo_center->setGeometry({SD(910),SD(885),SD(100),SD(100)});
+    ui->logo_left->setGeometry({SD(125),SD(885),SD(250),SD(100)});
+    ui->logo_right->setGeometry({SD(1545),SD(885),SD(250),SD(100)});
+    ui->menu_button->setGeometry({SD(1620),SD(95),SD(100),SD(100)});
+    ui->scan_text->setGeometry({SD(125),SD(95),SD(578),SD(100)});
+
 #endif
     ui->background->setPixmap(bg.scaled(ui->background->width(), ui->background->height(), Qt::KeepAspectRatio));
     

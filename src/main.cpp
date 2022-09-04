@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
     // QObject::connect(w.get(), &MainWindow::csvLoaded, email_tool_dialog.get(), &EmailToolDialog::updateGroups);
     thread->start();
     timer_refresh_rate.start(16);
-    drop->move(std::move(QPoint(1563, 190)));
+    drop->move(std::move(QPoint(1563*0.7111111, 190*0.7111111)));
     w->show();
     drop->hide();
 

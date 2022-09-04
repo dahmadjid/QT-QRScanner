@@ -32,6 +32,7 @@
    <property name="font">
     <font>
      <family>Segoe UI Variable Static Text Semibold</family>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <property name="text">
@@ -438,6 +439,7 @@
    <property name="font">
     <font>
      <family>Arial</family>
+     <pointsize>9</pointsize>
      <bold>false</bold>
     </font>
    </property>
@@ -848,6 +850,7 @@
    <property name="font">
     <font>
      <family>Arial</family>
+     <pointsize>9</pointsize>
      <bold>false</bold>
     </font>
    </property>
@@ -1261,6 +1264,7 @@
    <property name="font">
     <font>
      <family>Arial</family>
+     <pointsize>9</pointsize>
      <bold>false</bold>
     </font>
    </property>
@@ -1671,6 +1675,7 @@
    <property name="font">
     <font>
      <family>Arial</family>
+     <pointsize>9</pointsize>
      <bold>false</bold>
     </font>
    </property>
@@ -1678,7 +1683,7 @@
     <string notr="true">background-color:rgb(246, 245, 244)</string>
    </property>
    <property name="text">
-    <string>Load CSVs</string>
+    <string>Load CSV</string>
    </property>
    <property name="flat">
     <bool>false</bool>
@@ -2084,6 +2089,7 @@
    <property name="font">
     <font>
      <family>Arial</family>
+     <pointsize>9</pointsize>
      <bold>false</bold>
     </font>
    </property>
