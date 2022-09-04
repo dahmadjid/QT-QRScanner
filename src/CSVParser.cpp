@@ -181,7 +181,7 @@ void CSVParser::parseFile(const std::string& csv_file_path)
         #endif
 
         #ifdef WINDOWS
-            offset += line.length() + 1; // \n
+            offset += line.length() + 2; // \n
         #endif
         line_number+=1;
     }
@@ -303,7 +303,11 @@ bool CSVParser::updateAttendance(const std::string& qr, const std::string& sessi
             }
             while (!safeGetline(csv_file, line).eof())
             {
-
+                if (line.length() < 4)
+                {
+                    qDebug() << "ignoring empty line: ";
+                    continue;
+                }
                 #ifdef LINUX
                 temp_csv_file << line + ",0\r\n";
                 #endif

@@ -8,9 +8,9 @@ if (WIN32)
 add_compile_definitions(WINDOWS)
 else()
 add_compile_definitions(LINUX)
+add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-add_compile_options(-Wall -Wextra -Wpedantic)
 set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
@@ -48,8 +48,12 @@ add_executable(QRScanner
     ${PROJECT_FORMS}
 )
 
-
+if (WIN32)
+target_link_libraries(QRScanner PRIVATE Qt6::Widgets opencv_world460.lib) # qrtopng)
+else()
 target_link_libraries(QRScanner PRIVATE Qt6::Widgets ${OpenCV_LIBS}) # qrtopng)
+endif()
+
 set_target_properties(QRScanner PROPERTIES
     WIN32_EXECUTABLE ON
     MACOSX_BUNDLE ON
